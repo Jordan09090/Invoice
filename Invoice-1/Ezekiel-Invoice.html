@@ -85,7 +85,7 @@
             <div class="invoice-details">
                 <p><strong>Issue Date:</strong> May 17, 2024</p>
                 <p><strong>Amount Due:</strong> $330.00</p>
-                <p><strong>Due Date:</strong> <span id="dueDate">May 31, 2024</span> (<span id="dueStatus"></span>)</p>
+                <p><strong>Due Date:</strong> <span id="dueDate">May 18, 2024</span> (<span id="dueStatus"></span>)</p>
                 <p><strong>Client Name:</strong> Ross Ezekiel</p>
             </div>
             <a href="Ross Invoice.pdf" class="download-button" download>Download Invoice as PDF</a>
@@ -100,28 +100,36 @@
     </div>
 
     <script>
-        // Function to calculate due date status
         function calculateDueDateStatus() {
             const dueDateElement = document.getElementById('dueDate');
             const dueStatusElement = document.getElementById('dueStatus');
             const dueDate = new Date(dueDateElement.textContent);
             const today = new Date();
+
+            // Reset time part of dates to midnight
+            dueDate.setHours(0, 0, 0, 0);
+            today.setHours(0, 0, 0, 0);
+
             const timeDiff = dueDate.getTime() - today.getTime();
-            const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            const dayDiff = timeDiff / (1000 * 3600 * 24);
 
             if (dayDiff > 0) {
-                dueStatusElement.textContent = `Due in ${dayDiff} days`;
+                dueStatusElement.textContent = `Due in ${Math.round(dayDiff)} days`;
+                dueStatusElement.classList.add('due-soon');
+                dueStatusElement.classList.remove('overdue');
+            } else if (dayDiff === 0) {
+                dueStatusElement.textContent = `Due today`;
                 dueStatusElement.classList.add('due-soon');
                 dueStatusElement.classList.remove('overdue');
             } else {
-                dueStatusElement.textContent = `${Math.abs(dayDiff)} days overdue`;
+                dueStatusElement.textContent = `${Math.abs(Math.round(dayDiff))} days overdue`;
                 dueStatusElement.classList.add('overdue');
                 dueStatusElement.classList.remove('due-soon');
             }
         }
 
-        // Call the function on page load
         calculateDueDateStatus();
     </script>
 </body>
 </html>
+
