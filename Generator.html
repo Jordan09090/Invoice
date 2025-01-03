@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Generator</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f5f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            width: 450px;
+        }
+        h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #1a1a1a;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #007aff;
+            color: #ffffff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #005fcc;
+        }
+        .output {
+            margin-top: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            font-family: monospace;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .notification {
+            display: none;
+            margin-top: 20px;
+            padding: 10px;
+            text-align: center;
+            color: #ffffff;
+            background-color: #007aff;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .notification.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Invoice Generator</h1>
+
+        <label for="clientName">Client Name</label>
+        <input type="text" id="clientName" value="Ross Ezekiel">
+
+        <label for="autoDueDate">Auto-set Due Date</label>
+        <input type="checkbox" id="autoDueDate" checked>
+
+        <label for="issueDate">Issue Date</label>
+        <input type="date" id="issueDate">
+
+        <label for="dueDate">Due Date</label>
+        <input type="date" id="dueDate" disabled>
+
+        <label for="invoiceNumber">Invoice Number</label>
+        <input type="number" id="invoiceNumber" placeholder="e.g., 16" min="1">
+
+        <label for="amount">Amount Due</label>
+        <input type="number" id="amount" value="330.00" step="0.01" min="0">
+
+        <button onclick="generateInvoiceCode()">Generate Email Code</button>
+        <button onclick="copyGeneratedCode()">Copy Email Code</button>
+
+        <div class="output">
+            <label for="output">Generated Email HTML Code:</label>
+            <textarea id="output" readonly></textarea>
+        </div>
+
+        <button onclick="generateViewCode()">Generate View Code</button>
+        <button onclick="copyViewCode()">Copy View Code</button>
+
+        <div class="output">
+            <label for="viewOutput">Generated View HTML Code:</label>
+            <textarea id="viewOutput" readonly></textarea>
+        </div>
+
+        <div id="notification" class="notification">Code Generated Successfully!</div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const dueDateInput = document.getElementById("dueDate");
+            const issueDateInput = document.getElementById("issueDate");
+            const autoDueDateCheckbox = document.getElementById("autoDueDate");
+
+            function updateDueDate() {
+                const issueDateValue = issueDateInput.value;
+                if (autoDueDateCheckbox.checked && issueDateValue) {
+                    const issueDate = new Date(issueDateValue);
+                    const dueDate = new Date(issueDate);
+                    dueDate.setDate(issueDate.getDate() + 7);
+                    dueDateInput.value = dueDate.toISOString().split("T")[0];
+                }
+            }
+
+            issueDateInput.addEventListener("change", updateDueDate);
+            autoDueDateCheckbox.addEventListener("change", () => {
+                dueDateInput.disabled = autoDueDateCheckbox.checked;
+                if (autoDueDateCheckbox.checked) {
+                    updateDueDate();
+                }
+            });
+        });
+
+        function generateInvoiceCode() {
+            const clientName = document.getElementById("clientName").value;
+            const issueDate = document.getElementById("issueDate").value;
+            const dueDate = document.getElementById("dueDate").value;
+            const invoiceNumber = document.getElementById("invoiceNumber").value;
+            const amount = document.getElementById("amount").value;
+            const notification = document.getElementById("notification");
+
+            if (!issueDate || !dueDate || !invoiceNumber) {
+                alert("Please fill in all required fields.");
+                return;
+            }
+
+            const htmlCode = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice from Next Level Content Creation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #000000;
+        }
+        .header {
+            background-color: #646464;
+            color: #ffffff;
+            padding: 10px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .content {
+            padding: 20px;
+            color: #000000;
+        }
+        .content h2 {
+            color: #000000;
+        }
+        .content p {
+            line-height: 1.6;
+        }
+        .footer {
+            background-color: #f4f4f4;
+            padding: 10px;
+            text-align: center;
+            color: #888888;
+            font-size: 12px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: #0167bb;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>Next Level Content Creation</h1>
+        </div>
+        <div class="content">
+            <h2>Dear, ${clientName}</h2>
+            <p>We are pleased to inform you that your invoice is now complete. Below are the details:</p>
+            <p><strong>Issue Date:</strong> ${new Date(issueDate).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "2-digit",
+            })}</p>
+            <p><strong>Due Date:</strong> ${new Date(dueDate).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "2-digit",
+            })}</p>
+            <p><strong>Amount Due:</strong> $${amount} (GST Included)</p>
+            <p>To view the details of your invoice, please click the button below.</p>
+            <a href="https://jordan09090.github.io/Invoice/Invoice-${invoiceNumber}/View${invoiceNumber}.html" target="_blank" class="button">View Invoice</a>
+            <p>If you have any questions or need further assistance, feel free to reach out to us.</p>
+        </div>
+        <div class="footer">
+            <p>PO BOX 8516 Perth BC, Perth WA 6849</p>
+            <p><a href="mailto:nextlevelcontentcreation@gmail.com">nextlevelcontentcreation@gmail.com</a></p>
+        </div>
+    </div>
+</body>
+</html>`;
+
+            document.getElementById("output").value = htmlCode;
+            notification.classList.add("show");
+            setTimeout(() => notification.classList.remove("show"), 3000);
+        }
+
+        function generateViewCode() {
+            const clientName = document.getElementById("clientName").value;
+            const issueDate = document.getElementById("issueDate").value;
+            const dueDate = document.getElementById("dueDate").value;
+            const invoiceNumber = document.getElementById("invoiceNumber").value;
+            const amount = document.getElementById("amount").value;
+
+            if (!issueDate || !dueDate || !invoiceNumber) {
+                alert("Please fill in all required fields.");
+                return;
+            }
+
+            const viewHtmlCode = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Portal - Next Level Content Creation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #dddddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            padding: 10px;
+        }
+        .header img {
+            width: 300px;
+        }
+        .invoice {
+            padding: 20px;
+            border-top: 1px solid #dddddd;
+        }
+        .invoice h2 {
+            color: #000000;
+        }
+        .invoice-details {
+            margin-bottom: 20px;
+        }
+        .download-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #000000;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .invoice-image {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .invoice-image img {
+            max-width: 600px;
+            height: auto;
+            border: 1px solid #dddddd;
+        }
+        .due-date {
+            font-weight: bold;
+        }
+        .due-soon {
+            color: green;
+        }
+        .overdue {
+            color: red;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #888888;
+            font-size: 14px;
+            border-top: 1px solid #dddddd;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="Logo - White Background.jpg" alt="Next Level Content Creation">
+            <h1>Invoice</h1>
+            <h3>Welcome, Mr ${clientName}</h3>
+        </div>
+        <div class="invoice">
+            <h2>Invoice Details</h2>
+            <div class="invoice-details">
+                <p><strong>Issue Date:</strong> ${new Date(issueDate).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "2-digit",
+                })}</p>
+                <p><strong>Amount Due:</strong> $${amount}</p>
+                <p><strong>Due Date:</strong> <span id="dueDate">${new Date(dueDate).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "2-digit",
+                })}</span></p>
+                <p><strong>Client Name:</strong> ${clientName}</p>
+            </div>
+            <a href="Invoice ${invoiceNumber} - Next Level Content Creation.pdf" class="download-button" download>Download Invoice as PDF</a>
+        </div>
+        <div class="invoice-image">
+            <img src="Invoice ${invoiceNumber} - Next Level Content Creation.png" alt="Invoice Image">
+        </div>
+        <div class="footer">
+            <p>Next Level Content Creation</p>
+            <p><a href="mailto:nextlevelcontentcreation@gmail.com">nextlevelcontentcreation@gmail.com</a></p>
+        </div>
+    </div>
+</body>
+</html>`;
+
+            document.getElementById("viewOutput").value = viewHtmlCode;
+            const notification = document.getElementById("notification");
+            notification.classList.add("show");
+            setTimeout(() => notification.classList.remove("show"), 3000);
+        }
+
+        function copyViewCode() {
+            const viewOutput = document.getElementById("viewOutput");
+            viewOutput.select();
+            document.execCommand("copy");
+            alert("View Code copied to clipboard!");
+        }
+
+        function copyGeneratedCode() {
+            const output = document.getElementById("output");
+            output.select();
+            document.execCommand("copy");
+            alert("Email Code copied to clipboard!");
+        }
+    </script>
+</body>
+</html>
