@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Invoice - Next Level Content Creation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background-color: #ffffff;
+      padding: 20px;
+      border: 1px solid #dddddd;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      text-align: center;
+      padding: 10px;
+    }
+    .header img {
+      width: 300px;
+    }
+    .invoice {
+      padding: 20px;
+      border-top: 1px solid #dddddd;
+    }
+    .download-button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #000000;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 5px;
+      border: none;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #f4f4f4;
+      color: #888888;
+      font-size: 14px;
+      border-top: 1px solid #dddddd;
+      margin-top: 20px;
+    }
+    .invoice-container {
+      max-width: 800px;
+      margin: 30px auto;
+      background: #fff;
+      border: 1px solid #ddd;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+      padding: 40px 32px;
+      border-radius: 18px;
+      position: relative;
+    }
+    .header-preview {
+      display: flex;
+      justify-content: flex-end;
+      border-bottom: 2px solid #000;
+      padding-bottom: 16px;
+    }
+    .header-preview .company {
+      text-align: right;
+    }
+    .invoice-title {
+      text-align: center;
+      margin: 32px 0 16px 0;
+      font-size: 2em;
+      font-weight: bold;
+    }
+    .section {
+      margin-bottom: 24px;
+    }
+    .section-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+      font-size: 1.1em;
+    }
+    .details-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+    }
+    .details-table th, .details-table td {
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+    }
+    .details-table th {
+      background: #f4f4f4;
+    }
+    .totals {
+      float: right;
+      width: 320px;
+      margin-top: 16px;
+    }
+    .totals-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .totals-table td {
+      padding: 6px 8px;
+    }
+    .totals-table .label {
+      text-align: left;
+    }
+    .totals-table .value {
+      text-align: right;
+    }
+    .totals-table .total-row {
+      font-weight: bold;
+      border-top: 2px solid #000;
+    }
+    .payment-details {
+      margin-top: 48px;
+      font-size: 1em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="Logo - White Background.jpg" alt="Next Level Content Creation" />
+      <h1>Invoice</h1>
+      <h3>Welcome, Mr Ross Ezekiel</h3>
+    </div>
+    <div class="invoice">
+      <h2>Invoice Details</h2>
+      <div class="invoice-details">
+        <p><strong>Issue Date:</strong> <span id="issue-date"></span></p>
+        <p><strong>Amount Due:</strong> <span id="amount-due"></span></p>
+        <p><strong>Due Date:</strong> <span id="due-date"></span></p>
+        <p><strong>Client Name:</strong> Ross Ezekiel</p>
+      </div>
+      <button class="download-button" id="download-pdf">Download Invoice as PDF</button>
+    </div>
+
+    <div class="invoice-container" id="invoice">
+      <div class="header-preview">
+        <div class="company">
+          <h2>Next Level Content Creation</h2>
+          <p>PO BOX 8516 Perth BC, Perth WA 6849</p>
+          <p>ABN: 77 134 454 425</p>
+          <p>Charriot Bantleman • +61 413 268 335<br>nextlevelcontentcreation@gmail.com</p>
+        </div>
+      </div>
+      <div class="invoice-title">TAX INVOICE</div>
+      <div class="section">
+        <div class="section-title">Bill To</div>
+        <div>Ross Ezekiel Jewellers<br>152/580, Hay Street<br>Perth WA 6000<br>Australia</div>
+      </div>
+      <div class="section">
+        <table class="details-table">
+          <tr>
+            <th>Invoice No.</th>
+            <th>Issue Date</th>
+            <th>Due Date</th>
+            <th>Reference</th>
+            <th>Payment Method</th>
+          </tr>
+          <tr>
+            <td id="invoice-number"></td>
+            <td id="issue-date-table"></td>
+            <td id="due-date-table"></td>
+            <td id="reference"></td>
+            <td>EFT</td>
+          </tr>
+        </table>
+      </div>
+      <div class="section">
+        <table class="details-table" id="pricing-table">
+          <tr>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Unit Price ($)</th>
+            <th>Amount ($)</th>
+          </tr>
+          <tr>
+            <td>Gold Marketing Package</td>
+            <td id="quantity">2</td>
+            <td id="unit-price">$0.00</td>
+            <td id="amount">$0.00</td>
+          </tr>
+        </table>
+      </div>
+      <div class="totals">
+        <table class="totals-table" id="totals-table">
+          <tr>
+            <td class="label">Original Subtotal:</td>
+            <td class="value" id="original-subtotal">$0.00</td>
+          </tr>
+          <tr>
+            <td class="label">Close Clients Discount (15%):</td>
+            <td class="value" id="discount-amount">-$0.00</td>
+          </tr>
+          <tr>
+            <td class="label">Subtotal:</td>
+            <td class="value" id="subtotal">$0.00</td>
+          </tr>
+          <tr>
+            <td class="label">GST (10%):</td>
+            <td class="value" id="gst">$0.00</td>
+          </tr>
+          <tr class="total-row">
+            <td class="label">Total (AUD):</td>
+            <td class="value" id="total">$0.00</td>
+          </tr>
+        </table>
+      </div>
+
+      <div style="clear: both;"></div>
+      <div class="payment-details">
+        <div class="section-title">Payment Details</div>
+        <p><strong>Reference for payment:</strong> <span id="payment-reference"></span></p>
+        <p><strong>Bank:</strong> Commonwealth Bank</p>
+        <p><strong>Account Name:</strong> Next Level Content Creation</p>
+        <p><strong>Account No:</strong> 1030 4725</p>
+        <p><strong>BSB:</strong> 066-124</p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>Next Level Content Creation</p>
+      <p><a href="mailto:nextlevelcontentcreation@gmail.com">nextlevelcontentcreation@gmail.com</a></p>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    const START_DATE = '2024-05-16';
+    const FIRST_INVOICE_NUMBER = 100;
+    const PRICING_RULES = [
+      { from: '2021-05-16', to: '2080-11-20', amount: 235 },
+
+    ];
+
+    function formatDate(date, useMonthName = false) {
+      return date.toLocaleDateString('en-AU', {
+        day: '2-digit',
+        month: useMonthName ? 'long' : '2-digit',
+        year: 'numeric'
+      });
+    }
+
+    function addDays(date, days) {
+      const result = new Date(date);
+      result.setDate(result.getDate() + days);
+      return result;
+    }
+
+    function getPriceForDate(date) {
+      const targetDate = new Date(date);
+      for (const rule of PRICING_RULES) {
+        if (targetDate >= new Date(rule.from) && targetDate <= new Date(rule.to)) {
+          return rule.amount;
+        }
+      }
+      return PRICING_RULES[0].amount;
+    }
+
+    function calculateInvoiceDetails(issueDateStr) {
+      const startDate = new Date(START_DATE);
+      const issueDate = new Date(issueDateStr);
+      const dueDate = addDays(issueDate, 7);
+      const daysDiff = Math.floor((issueDate - startDate) / (24 * 60 * 60 * 1000));
+      const invoiceNumber = FIRST_INVOICE_NUMBER + Math.floor(daysDiff / 14);
+      return { invoiceNumber, issueDate, dueDate };
+    }
+
+    function updateInvoice() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const targetDate = urlParams.get('date') || '2025-05-01';
+
+      const details = calculateInvoiceDetails(targetDate);
+      const unitPrice = getPriceForDate(targetDate);
+      const quantity = 2;
+      const originalSubtotal = unitPrice * quantity;
+      const discount = originalSubtotal * 0.15;
+      const discountedSubtotal = originalSubtotal - discount;
+      const gst = discountedSubtotal * 0.1;
+      const total = discountedSubtotal + gst;
+      const reference = `EZ${details.invoiceNumber}`;
+
+      document.getElementById('issue-date').textContent = formatDate(details.issueDate, true);
+      document.getElementById('due-date').textContent = formatDate(details.dueDate, true);
+      document.getElementById('amount-due').textContent = `$${total.toFixed(2)}`;
+      document.getElementById('invoice-number').textContent = details.invoiceNumber;
+      document.getElementById('issue-date-table').textContent = formatDate(details.issueDate);
+      document.getElementById('due-date-table').textContent = formatDate(details.dueDate);
+      document.getElementById('reference').textContent = reference;
+
+      document.getElementById('unit-price').textContent = `$${unitPrice.toFixed(2)}`;
+      document.getElementById('amount').textContent = `$${originalSubtotal.toFixed(2)}`;
+
+      document.getElementById('original-subtotal').textContent = `$${originalSubtotal.toFixed(2)}`;
+      document.getElementById('discount-amount').textContent = `-$${discount.toFixed(2)}`;
+      document.getElementById('subtotal').textContent = `$${discountedSubtotal.toFixed(2)}`;
+      document.getElementById('gst').textContent = `$${gst.toFixed(2)}`;
+      document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+
+      document.getElementById('payment-reference').textContent = reference;
+    }
+
+    document.addEventListener('DOMContentLoaded', updateInvoice);
+    document.getElementById('download-pdf').addEventListener('click', function () {
+      const invoice = document.getElementById('invoice');
+      html2canvas(invoice, { scale: 2, useCORS: true }).then(function(canvas) {
+        const imgData = canvas.toDataURL('image/jpeg', 1.0);
+        const pdf = new window.jspdf.jsPDF('p', 'pt', 'a4');
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const imgWidth = pageWidth - 40;
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        const y = 20;
+        pdf.addImage(imgData, 'JPEG', 20, y, imgWidth, imgHeight);
+        pdf.save('Invoice-Next-Level-Content-Creation.pdf');
+      });
+    });
+  </script>
+</body>
+</html>
