@@ -152,7 +152,7 @@
           <p>Charriot Bantleman • +61 413 268 335<br>nextlevelcontentcreation@gmail.com</p>
         </div>
       </div>
-      <div class="invoice-title">TAX INVOICE</div>
+      <div class="invoice-title">INVOICE</div>
       <div class="section">
         <div class="section-title">Bill To</div>
         <div>Ross Ezekiel Jewellers<br>152/580, Hay Street<br>Perth WA 6000<br>Australia</div>
@@ -205,10 +205,6 @@
             <td class="label">Subtotal:</td>
             <td class="value" id="subtotal">$0.00</td>
           </tr>
-          <tr>
-            <td class="label">GST (10%):</td>
-            <td class="value" id="gst">$0.00</td>
-          </tr>
           <tr class="total-row">
             <td class="label">Total (AUD):</td>
             <td class="value" id="total">$0.00</td>
@@ -240,7 +236,6 @@
     const FIRST_INVOICE_NUMBER = 170;
     const PRICING_RULES = [
       { from: '2021-05-16', to: '2080-11-20', amount: 235 },
-
     ];
 
     function formatDate(date, useMonthName = false) {
@@ -286,8 +281,7 @@
       const originalSubtotal = unitPrice * quantity;
       const discount = originalSubtotal * 0.15;
       const discountedSubtotal = originalSubtotal - discount;
-      const gst = discountedSubtotal * 0.1;
-      const total = discountedSubtotal + gst;
+      const total = discountedSubtotal;
       const reference = `EZ${details.invoiceNumber}`;
 
       document.getElementById('issue-date').textContent = formatDate(details.issueDate, true);
@@ -304,7 +298,6 @@
       document.getElementById('original-subtotal').textContent = `$${originalSubtotal.toFixed(2)}`;
       document.getElementById('discount-amount').textContent = `-$${discount.toFixed(2)}`;
       document.getElementById('subtotal').textContent = `$${discountedSubtotal.toFixed(2)}`;
-      document.getElementById('gst').textContent = `$${gst.toFixed(2)}`;
       document.getElementById('total').textContent = `$${total.toFixed(2)}`;
 
       document.getElementById('payment-reference').textContent = reference;
@@ -327,3 +320,4 @@
   </script>
 </body>
 </html>
+
